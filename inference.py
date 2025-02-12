@@ -286,7 +286,7 @@ def parsing_data():
     parser.add_argument('--modalities',
                     type=str,
                     nargs="+",
-                    default=['us', 't2'])
+                    default=['us', 't2', 'cet1', 'flair'])
 
     parser.add_argument('--no_se',
                         action='store_false', 

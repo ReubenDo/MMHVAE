@@ -128,11 +128,12 @@ class MHVAE2D(nn.Module):
                     with_se=with_se))
 
             self.qz.append(BlockQ(n_features_after_tu_and_concat, nfeatures_from_skip, nfeatures_from_skip))
-            self.pz.append(nn.utils.weight_norm(nn.Conv2d(nfeatures_from_skip, nfeatures_from_skip, 1, 1, 0, 1, 1, False), dim=0, name='weight'))
+            self.pz.append(nn.utils.parametrizations.weight_norm(nn.Conv2d(nfeatures_from_skip, nfeatures_from_skip, 1, 1, 0, 1, 1, False), dim=0, name='weight'))
 
             nfeat_latent = nfeatures_from_skip // 2
 
-        self.logger.info(f"Important: reduction from {nfeat_latent} to {nfeat_finalblock}")
+        if not self.logger is None:
+            self.logger.info(f"Important: reduction from {nfeat_latent} to {nfeat_finalblock}")
         self.final_blocks = {mod:BlockFinalImg(
                 nfeat_latent, 
                 nfeat_finalblock, 
@@ -251,8 +252,8 @@ class MHVAE2D(nn.Module):
             z_ip1 = z_full['z{}'.format(self.nb_latent-i)]
             x = self.tu[i](z_ip1)
             x = self.conv_blocks_localization[i](x)
-            if verbose:
-                self.logger.info(f"Shape feature volume for {z_name}: {x.size()}")
+            # if verbose:
+            #     self.logger.info(f"Shape feature volume for {z_name}: {x.size()}")
             
             # Prior p(z_{l-1}|z_l)
             mu_zi_p, logvar_zi_p = self.pz[i](x).chunk(2, dim=1)

@@ -157,9 +157,8 @@ def train(paths_dict, model, netD, device, logger, opt):
                     imgs_norm[mod] = imgs_norm[mod].reshape(-1, 1, *batch[f"{mod}_norm"].shape[2:4])[w:w+nw:,...]
 
                 nb_voxels = np.prod(imgs[first_mod].shape)
-                        
-                subset_us = ['us']
                 subset_mr = [k for k in nonempty_list if not 'us'==k]
+                
                 assert opt.modalities[0]=='us'
                 total_subsets_mr = list(chain.from_iterable(combinations(subset_mr, r) for r in range(1,len(subset_mr)+1)))
                 
@@ -338,8 +337,8 @@ def train(paths_dict, model, netD, device, logger, opt):
                         save_training(pred, affine, os.path.join(saving_path,name.format(listToStr, f"{epoch}_{temp}")))
                     
                 # Save sample
-                pred = model.sample(batch_size=imgs[first_mod].size(0), return_cat=True)
-                save_training(pred, affine, os.path.join(saving_path,name.format('sample', epoch)))
+                # pred = model.sample(batch_size=imgs[first_mod].size(0), return_cat=True)
+                # save_training(pred, affine, os.path.join(saving_path,name.format('sample', epoch)))
 
     time_elapsed = time.time() - since
     logger.info('Training completed in {:.0f}m {:.0f}s'.format(
@@ -399,7 +398,7 @@ def main():
             if os.path.exists(opt.path_data+subject+opt.modalities[0]+'.nii.gz'):
                 for modality in opt.modalities:
                     paths_dict['unnormalized'][phase][modality].append(opt.path_data+subject+modality+'.nii.gz')
-                    paths_dict['normalized'][phase][modality].append(opt.path_data_norm+subject+modality+'_norm.nii.gz')
+                    paths_dict['normalized'][phase][modality].append(opt.path_data_norm+subject+modality+'.nii.gz')
 
     # MODEL  
     output_feat = len(opt.modalities)
@@ -465,12 +464,12 @@ def parsing_data():
 
     parser.add_argument('--path_data',
                         type=str,
-                        default='../data/unnorm/',
+                        default='../data/TPAMI/unnorm/',
                         help='Path to the unnorm dataset')
 
     parser.add_argument('--path_data_norm',
                         type=str,
-                        default='../data/unnorm/',
+                        default='../data/TPAMI/norm/',
                         help='Path to the norm dataset')
     
     parser.add_argument('--type_normalization',
@@ -571,7 +570,7 @@ def parsing_data():
     parser.add_argument('--modalities',
                     type=str,
                     nargs="+",
-                    default=['us', 't2'])
+                    default=['us', 't2', 'cet1', 'flair'])
     
     
     parser.add_argument('--no_se',

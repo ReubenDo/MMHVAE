@@ -186,7 +186,7 @@ class BlockQ(nn.Module):
         self.conv_1 = nn.Conv2d(n_hidden, n_hidden, 3, stride=1, padding=1, bias=True, dilation=1)
 
         self.se = SE(n_hidden)
-        self.last_conv = nn.utils.weight_norm(nn.Conv2d(n_hidden, n_out, 1, 1, 0, 1, 1, False))
+        self.last_conv = nn.utils.parametrizations.weight_norm(nn.Conv2d(n_hidden, n_out, 1, 1, 0, 1, 1, False))
 
     def forward(self, x):
         
@@ -212,7 +212,7 @@ class AsFeatureMap_up(nn.Module):
         self._input_dim = input_dim
         out_features = np.prod(target_shape)
         self.linear = nn.Linear(input_dim, out_features)
-        self.linear = nn.utils.weight_norm(self.linear, dim=0, name="weight")
+        self.linear = nn.utils.parametrizations.weight_norm(self.linear, dim=0, name="weight")
         self._output_shp = target_shape
 
 
@@ -230,7 +230,7 @@ class AsFeatureMap_down(nn.Module):
         self._input_shp = input_shape
         input_features = np.prod(input_shape)
         self.linear = nn.Linear(input_features, target_dim)
-        self.linear = nn.utils.weight_norm(self.linear, dim=0, name="weight")
+        self.linear = nn.utils.parametrizations.weight_norm(self.linear, dim=0, name="weight")
 
 
 
