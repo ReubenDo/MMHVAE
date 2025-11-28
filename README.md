@@ -21,14 +21,52 @@ We propose a deep mixture of multimodal hierarchical variational auto-encoders c
 3. learning to fuse multimodal information in the context of missing data
 4. leveraging dataset-level information to handle incomplete data sets at training time. 
 
-*Example of multimodal synthesis*
+*Example of multimodal synthesis using a) an ultrasound or b) a T2 scan as input. 
+Three MR sequences (FLAIR, contrast-enhanced T1, T2) and ultrasound images are generated.*
 <p align="center">
-  <img src="figs/synthesis_results.gif">
+  <img src="data/imgs/readme_img.png">
 </p>
 
 
+## Try MMHVAE to synthesize ultrasounds/MR
 
-## Virtual Environment Setup
+Once all the python packages are installed (see below), and download the models you can simply test MMHVAE on your own data with:
 
-TODO
-  
+```python pred.py --model_dir pretrained/mmhvae_f0/ --input test/ --output output_test/```
+
+## Installation
+
+1. Clone this repository.
+2. Create a virtual environment (i.e., with pip or conda) and install all the required packages.
+   
+   ```pip install -r requirements.txt```
+3. Optional: Download the pre-trained models
+   
+
+## Run on your own data
+### Training
+Example of training command:
+```
+WEIGHT=0.025
+FOLD=0
+
+python train.py \
+--model_dir ./models/fold$FOLD/mmhvae_$WEIGHT/ \
+--dataset_split splits/split_empty_$FOLD.csv \
+--path_data $WORK/data/TPAMI/data_unnorm/ \
+--path_data_norm $WORK/data/TPAMI/data_norm/ \
+--w_dis $WEIGHT
+```
+### Test
+Example of training command:
+```
+WEIGHT=0.025
+FOLD=0
+
+python inference.py \
+--model_dir ./models/fold$FOLD/mmhvae_$WEIGHT/ \
+--dataset_split splits/split_empty_$FOLD.csv \
+--path_data $WORK/data/TPAMI/data_unnorm/ \
+--path_data_norm $WORK/data/TPAMI/data_norm/ \
+--save_images 
+```
