@@ -1,16 +1,17 @@
 #  Unified Cross-Modal Image Synthesis with Hierarchical Mixture of Product-of-Experts
 
-Public PyTorch implementation for our paper [Unified Cross-Modal Image Synthesis withHierarchical Mixture of Product-of-Experts](https://arxiv.org/pdf/2410.19378), 
+Public PyTorch implementation for our paper [Unified Cross-Modal Medical Image Synthesis with Hierarchical Mixture of Product-of-Experts](https://arxiv.org/pdf/2410.19378), 
 currently under review. 
 
 If you find this code useful for your research, please cite the following paper:
 
 ```
-@article{dorent2024unified,
-  title={Unified Cross-Modal Image Synthesis with Hierarchical Mixture of Product-of-Experts},
+@article{dorent2025unified,
+  title={Unified Cross-Modal Medical Image Synthesis with Hierarchical Mixture of Product-of-Experts},
   author={Dorent, Reuben and Haouchine, Nazim and Golby, Alexandra and Frisken, Sarah and Kapur, Tina and Wells, William},
-  journal={arXiv preprint arXiv:2410.19378},
-  year={2024}
+  journal={IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  year={2025},
+  publisher={IEEE}
 }
 ```
 
